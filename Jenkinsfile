@@ -63,8 +63,8 @@ pipeline {
       stage('Docker Build and Push') {
       steps {
           sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-          sh 'docker build -t rsekhark55/fQ user-service:${VERSION} .'
-          sh 'docker push rsekhark55/fQ user-service:${VERSION}'
+          sh 'docker build -t rsekhark55/user-service:${VERSION} .'
+          sh 'docker push rsekhark55/user-service:${VERSION}'
       }
     } 
 
@@ -83,7 +83,7 @@ pipeline {
          checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[ credentialsId: 'git-ssh', url: 'git@github.com:rsekhark55/deployment-folder.git']])
         script {
        sh '''
-          sed -i "s/image:.*/image: rsekhark55\\/fQ user-service:${VERSION}/" aws/Q user-manifest.yml
+          sed -i "s/image:.*/image: rsekhark55\\/user-service:${VERSION}/" aws/Q user-manifest.yml
         '''
           sh 'git checkout master'
           sh 'git add .'
